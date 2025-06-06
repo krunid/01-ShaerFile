@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: 'Prompt', sans-serif;
-            background-image: url('https://www.lemon8-app.com/seo/image?item_id=.%20170&index=3&sign=07201262f0b9fb4b8b137cc37f951e84');
+            background-image: url('https://i.pinimg.com/564x/56/99/f3/5699f3448820e8447569632fdb39fab6.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -93,6 +93,29 @@
             max-height: 100px;
             object-fit: contain;
         }
+        
+        .instructions {
+            background-color: rgba(255, 215, 0, 0.15);
+            border-left: 4px solid #FFD700;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .instructions h3 {
+            color: #8A2BE2;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+            list-style-type: decimal;
+        }
+        
+        .instructions li {
+            margin-bottom: 6px;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -104,6 +127,18 @@
             </div>
             
             <h1 id="formTitle" class="text-2xl md:text-3xl font-bold text-center mb-6 text-purple-800">กำลังโหลดข้อมูล...</h1>
+            
+            <!-- Instructions Section -->
+            <div class="instructions mb-6">
+                <h3>คำแนะนำการใช้งาน</h3>
+                <ol>
+                    <li>กรอกชื่อ-นามสกุลของท่านให้ถูกต้อง</li>
+                    <li>ระบุอีเมลที่สามารถติดต่อได้</li>
+                    <li>เลือกโปรแกรมที่ต้องการดาวน์โหลด</li>
+                    <li>กดปุ่ม "ลงทะเบียนรับไฟล์" เพื่อดำเนินการ</li>
+                    <li>หลังจากลงทะเบียนสำเร็จ ระบบจะเปิดลิงก์ดาวน์โหลดโปรแกรมให้อัตโนมัติ</li>
+                </ol>
+            </div>
             
             <form id="registrationForm" class="space-y-6">
                 <div class="yellow-accent pl-3">
@@ -295,10 +330,13 @@
                 document.getElementById('registrationForm').classList.remove('hidden');
                 
                 if (data.success) {
-                    // Show success message
+                    // Show success message with registration number
                     Swal.fire({
                         title: 'ลงทะเบียนสำเร็จ!',
-                        text: data.message || 'ขอบคุณสำหรับการลงทะเบียน',
+                        html: `
+                            <p>${data.message || 'ขอบคุณสำหรับการลงทะเบียน'}</p>
+                            <p class="mt-2 font-semibold">คุณได้ลงทะเบียนเป็นลำดับที่: ${data.registrationNumber || 'N/A'}</p>
+                        `,
                         icon: 'success',
                         confirmButtonColor: '#8A2BE2'
                     }).then(() => {
@@ -334,5 +372,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94b64c23128b98e2',t:'MTc0OTE5NjAwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94b6656a97f7a18d',t:'MTc0OTE5NzAzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
