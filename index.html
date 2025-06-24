@@ -8,126 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            font-family: 'Prompt', sans-serif;
-            background-image: url('https://i.pinimg.com/564x/56/99/f3/5699f3448820e8447569632fdb39fab6.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .purple-btn {
-            background-color: #8A2BE2;
-            transition: all 0.3s ease;
-        }
-        
-        .purple-btn:hover:not(:disabled) {
-            background-color: #7209b7;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
-        }
-
-        .purple-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .yellow-accent {
-            border-left: 4px solid #FFD700;
-        }
-
-        .form-input {
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #8A2BE2;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .table-container {
-            overflow-x: auto;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th {
-            background-color: #8A2BE2;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        th.no-wrap, td.no-wrap {
-            white-space: nowrap;
-        }
-        
-        tr:nth-child(even) {
-            background-color: rgba(255, 215, 0, 0.1);
-        }
-        
-        tr:hover {
-            background-color: rgba(138, 43, 226, 0.1);
-        }
-        
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 16px;
-        }
-        
-        .logo-image {
-            max-height: 200px;
-            object-fit: contain;
-        }
-        
-        .instructions {
-            background-color: rgba(255, 215, 0, 0.15);
-            border-left: 4px solid #FFD700;
-            padding: 16px;
-            margin-bottom: 24px;
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .instructions h3 {
-            color: #8A2BE2;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .instructions ol {
-            margin-left: 20px;
-            list-style-type: decimal;
-        }
-        
-        .instructions li {
-            margin-bottom: 6px;
-        }
+        body { font-family: 'Prompt', sans-serif; background-image: url('https://i.pinimg.com/564x/56/99/f3/5699f3448820e8447569632fdb39fab6.jpg'); background-size: cover; background-position: center; background-attachment: fixed; }
+        .glass-effect { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+        .purple-btn { background-color: #8A2BE2; transition: all 0.3s ease; }
+        .purple-btn:hover:not(:disabled) { background-color: #7209b7; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4); }
+        .purple-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .yellow-accent { border-left: 4px solid #FFD700; }
+        .form-input { transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .loader { border: 5px solid #f3f3f3; border-top: 5px solid #8A2BE2; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background-color: #8A2BE2; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        th.no-wrap, td.no-wrap { white-space: nowrap; }
+        tr:nth-child(even) { background-color: rgba(255, 215, 0, 0.1); }
+        tr:hover { background-color: rgba(138, 43, 226, 0.1); }
+        .logo-container { display: flex; justify-content: center; margin-bottom: 16px; }
+        .logo-image { max-height: 200px; object-fit: contain; }
+        .instructions { background-color: rgba(255, 215, 0, 0.15); border-left: 4px solid #FFD700; padding: 16px; margin-bottom: 24px; border-radius: 0 8px 8px 0; }
+        .instructions h3 { color: #8A2BE2; margin-bottom: 8px; font-weight: 600; }
+        .instructions ol { margin-left: 20px; list-style-type: decimal; }
+        .instructions li { margin-bottom: 6px; }
+        /* Make sure the "no results" row is not affected by hover effects */
+        #noResultsRow:hover { background-color: transparent; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -136,9 +40,7 @@
             <div class="logo-container">
                 <img src="https://krunid.github.io/knid13/krunid-logo.png" alt="Logo" class="logo-image">
             </div>
-            
             <h1 id="formTitle" class="text-2xl md:text-3xl font-bold text-center mb-6 text-purple-800">ระบบลงทะเบียนรับไฟล์</h1>
-            
             <div class="instructions mb-6">
                 <h3>คำแนะนำการใช้งาน</h3>
                 <ol>
@@ -149,43 +51,48 @@
                     <li>หลังจากลงทะเบียนสำเร็จ ระบบจะแสดงปุ่มให้กดดาวน์โหลดโปรแกรม</li>
                 </ol>
             </div>
-            
             <form id="registrationForm" class="space-y-6">
                 <div class="yellow-accent pl-3">
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label>
-                    <input type="text" id="name" name="name" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
                 </div>
-                
                 <div class="yellow-accent pl-3">
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">อีเมล</label>
-                    <input type="email" id="email" name="email" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
                 </div>
-                
                 <div class="yellow-accent pl-3">
                     <label for="program" class="block text-sm font-medium text-gray-700 mb-1">เลือกโปรแกรม</label>
-                    <select id="program" name="program" required 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
+                    <select id="program" name="program" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
                         <option value="" disabled selected>กรุณาเลือกโปรแกรม</option>
                     </select>
                 </div>
-                
                 <div class="text-center pt-4">
-                    <button type="submit" id="submitBtn" class="purple-btn text-white px-6 py-3 rounded-md font-medium shadow-md" disabled>
-                        ลงทะเบียนรับไฟล์
-                    </button>
+                    <button type="submit" id="submitBtn" class="purple-btn text-white px-6 py-3 rounded-md font-medium shadow-md" disabled>ลงทะเบียนรับไฟล์</button>
                 </div>
             </form>
-            
             <div id="loadingIndicator" class="hidden">
                 <div class="loader"></div>
                 <p class="text-center text-gray-600">กำลังบันทึกข้อมูล...</p>
             </div>
         </div>
-        
         <div class="glass-effect p-6 md:p-8 max-w-5xl mx-auto mb-8">
             <h2 class="text-xl md:text-2xl font-bold mb-4 text-purple-800">รายการลงทะเบียนล่าสุด</h2>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                <div class="relative w-full sm:w-auto flex-grow">
+                    <input type="text" id="searchInput" placeholder="ค้นหาจากชื่อ, อีเมล, หรือโปรแกรม..."
+                           class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                    </div>
+                </div>
+                <button id="reloadBtn" title="โหลดข้อมูลใหม่"
+                        class="flex-shrink-0 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-transform duration-200 ease-in-out hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" /></svg>
+                    <span>โหลดใหม่</span>
+                </button>
+            </div>
+            
             <div id="tableLoading" class="text-center py-4">
                 <div class="loader"></div>
                 <p>กำลังโหลดข้อมูล...</p>
@@ -194,20 +101,18 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ลำดับ</th>
-                            <th>ชื่อ-นามสกุล</th>
-                            <th class="no-wrap">อีเมล</th>
-                            <th>โปรแกรม</th>
-                            <th class="no-wrap">เวลา</th>
+                            <th>ลำดับ</th><th>ชื่อ-นามสกุล</th><th class="no-wrap">อีเมล</th><th>โปรแกรม</th><th class="no-wrap">เวลา</th>
                         </tr>
                     </thead>
                     <tbody id="registrationData">
+                        <tr id="noResultsRow" class="hidden">
+                            <td colspan="5" class="text-center py-4 text-gray-500">ไม่พบข้อมูลที่ตรงกัน</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    
     <footer class="bg-purple-900 text-white py-6">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -216,8 +121,7 @@
                     <p class="text-yellow-300 text-sm">ลงทะเบียนง่าย ได้ไฟล์ทันที</p>
                 </div>
                 <div class="text-sm text-gray-300">
-                    <p>© 2024 ระบบลงทะเบียนรับไฟล์</p>
-                    <p>พัฒนาโดย กฤตัชญ์ ศิษย์หลวงพ่อเสือ</p>
+                    <p>© 2024 ระบบลงทะเบียนรับไฟล์</p><p>พัฒนาโดย Canva Code</p>
                 </div>
             </div>
         </div>
@@ -237,48 +141,56 @@
 
             function checkFormValidity() {
                 let allValid = true;
-                requiredInputs.forEach(input => {
-                    if (!input.value) {
-                        allValid = false;
-                    }
-                });
+                requiredInputs.forEach(input => { if (!input.value) { allValid = false; } });
                 submitBtn.disabled = !allValid;
             }
 
-            requiredInputs.forEach(input => {
-                input.addEventListener('input', checkFormValidity);
-            });
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                submitForm();
-            });
-
+            requiredInputs.forEach(input => { input.addEventListener('input', checkFormValidity); });
+            form.addEventListener('submit', function(e) { e.preventDefault(); submitForm(); });
             checkFormValidity();
+            
+            // --- NEW: Event listeners for search and reload ---
+            const searchInput = document.getElementById('searchInput');
+            const reloadBtn = document.getElementById('reloadBtn');
+            
+            searchInput.addEventListener('input', handleSearch);
+            reloadBtn.addEventListener('click', fetchRecentRegistrations);
         });
         
-        // --- NEW FUNCTION: Formats the date to Thai Buddhist calendar ---
-        function formatThaiBuddhistDate(dateString) {
-            if (!dateString) {
-                return '-';
+        // --- NEW: Function to handle searching in the table ---
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const tableBody = document.getElementById('registrationData');
+            const rows = tableBody.getElementsByTagName('tr');
+            const noResultsRow = document.getElementById('noResultsRow');
+            let visibleRowCount = 0;
+
+            // Loop through all data rows (excluding the noResultsRow)
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if (row.id === 'noResultsRow') continue; // Skip the message row
+
+                const rowText = row.textContent || row.innerText;
+                if (rowText.toLowerCase().includes(searchTerm)) {
+                    row.style.display = '';
+                    visibleRowCount++;
+                } else {
+                    row.style.display = 'none';
+                }
             }
+
+            // Show or hide the "no results" message
+            noResultsRow.classList.toggle('hidden', visibleRowCount > 0);
+        }
+
+        function formatThaiBuddhistDate(dateString) {
+            if (!dateString) return '-';
             try {
                 const date = new Date(dateString);
-                if (isNaN(date.getTime())) {
-                    return dateString;
-                }
-                const options = {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric',
-                    calendar: 'buddhist',
-                    timeZone: 'Asia/Bangkok'
-                };
+                if (isNaN(date.getTime())) return dateString;
+                const options = { day: 'numeric', month: 'short', year: 'numeric', calendar: 'buddhist', timeZone: 'Asia/Bangkok' };
                 return date.toLocaleDateString('th-TH', options);
-            } catch (error) {
-                console.error("Error formatting date:", dateString, error);
-                return dateString;
-            }
+            } catch (error) { console.error("Error formatting date:", dateString, error); return dateString; }
         }
 
         function fetchProgramOptions() {
@@ -286,34 +198,32 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        if (data.title) {
-                            document.getElementById('formTitle').textContent = data.title;
-                        }
+                        if (data.title) { document.getElementById('formTitle').textContent = data.title; }
                         const programSelect = document.getElementById('program');
+                        programSelect.innerHTML = '<option value="" disabled selected>กรุณาเลือกโปรแกรม</option>'; // Clear old options
                         data.programs.forEach(program => {
                             const option = document.createElement('option');
                             option.value = program;
                             option.textContent = program;
                             programSelect.appendChild(option);
                         });
-                    } else {
-                        showError('ไม่สามารถโหลดข้อมูลโปรแกรมได้', 'กรุณาลองรีเฟรชหน้าใหม่อีกครั้ง');
-                    }
+                    } else { showError('ไม่สามารถโหลดข้อมูลโปรแกรมได้', 'กรุณาลองรีเฟรชหน้าใหม่อีกครั้ง'); }
                 })
-                .catch(error => {
-                    console.error('Error fetching programs:', error);
-                    showError('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
-                    document.getElementById('formTitle').textContent = 'เกิดข้อผิดพลาด';
-                });
+                .catch(error => { console.error('Error fetching programs:', error); showError('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'); document.getElementById('formTitle').textContent = 'เกิดข้อผิดพลาด'; });
         }
         
         function fetchRecentRegistrations() {
             const tableLoading = document.getElementById('tableLoading');
             const tableContainer = document.getElementById('tableContainer');
             const tableBody = document.getElementById('registrationData');
-            
+            const noResultsRow = document.getElementById('noResultsRow');
+            const searchInput = document.getElementById('searchInput');
+
             tableLoading.classList.remove('hidden');
             tableContainer.classList.add('hidden');
+            // Reset search input and hide no-results row on reload
+            searchInput.value = '';
+            noResultsRow.classList.add('hidden');
 
             fetch(`${SCRIPT_URL}?action=getRecentData&sheetId=${SHEET_ID}`)
                 .then(response => response.json())
@@ -321,8 +231,11 @@
                     tableLoading.classList.add('hidden');
                     tableContainer.classList.remove('hidden');
                     
+                    // Clear only data rows, keep the no-results row template
+                    tableBody.innerHTML = '';
+                    tableBody.appendChild(noResultsRow);
+
                     if (data.success && data.registrations && data.registrations.length > 0) {
-                        tableBody.innerHTML = '';
                         data.registrations.forEach(reg => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
@@ -332,10 +245,13 @@
                                 <td>${reg.program || '-'}</td>
                                 <td class="no-wrap">${formatThaiBuddhistDate(reg.timestamp)}</td>
                             `;
-                            tableBody.appendChild(row);
+                            // Insert new data rows before the "no results" row
+                            tableBody.insertBefore(row, noResultsRow);
                         });
                     } else {
-                        tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">ยังไม่มีข้อมูลการลงทะเบียน</td></tr>';
+                        const emptyRow = document.createElement('tr');
+                        emptyRow.innerHTML = '<td colspan="5" class="text-center py-4">ยังไม่มีข้อมูลการลงทะเบียน</td>';
+                        tableBody.insertBefore(emptyRow, noResultsRow);
                     }
                 })
                 .catch(error => {
@@ -357,10 +273,7 @@
             formData.append('action', 'register');
             formData.append('sheetId', SHEET_ID);
             
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: formData
-            })
+            fetch(SCRIPT_URL, { method: 'POST', body: formData })
             .then(response => response.json())
             .then(data => {
                 loadingIndicator.classList.add('hidden');
@@ -369,51 +282,28 @@
                 if (data.success) {
                     let swalConfig = {
                         title: 'ลงทะเบียนสำเร็จ!',
-                        html: `
-                            <p>${data.message || 'ขอบคุณสำหรับการลงทะเบียน'}</p>
-                            <p class="mt-2 font-semibold">คุณได้ลงทะเบียนเป็นลำดับที่: ${data.registrationNumber || 'N/A'}</p>
-                        `,
-                        icon: 'success',
-                        confirmButtonColor: '#8A2BE2',
-                        confirmButtonText: 'ปิด',
+                        html: `<p>${data.message || 'ขอบคุณสำหรับการลงทะเบียน'}</p><p class="mt-2 font-semibold">คุณได้ลงทะเบียนเป็นลำดับที่: ${data.registrationNumber || 'N/A'}</p>`,
+                        icon: 'success', confirmButtonColor: '#8A2BE2', confirmButtonText: 'ปิด',
                     };
-
                     if (data.downloadLink) {
                         swalConfig.showCancelButton = true;
                         swalConfig.confirmButtonText = 'ดาวน์โหลดไฟล์';
                         swalConfig.cancelButtonText = 'ปิดหน้าต่าง';
                         swalConfig.focusConfirm = true;
                     }
-
                     Swal.fire(swalConfig).then((result) => {
-                        if (result.isConfirmed && data.downloadLink) {
-                            window.open(data.downloadLink, '_blank');
-                        }
-                        
+                        if (result.isConfirmed && data.downloadLink) { window.open(data.downloadLink, '_blank'); }
                         form.reset();
                         document.getElementById('submitBtn').disabled = true;
-                        fetchRecentRegistrations();
+                        fetchRecentRegistrations(); // Refresh data after submission
                     });
-
-                } else {
-                    showError('ลงทะเบียนไม่สำเร็จ', data.message || 'เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง');
-                }
+                } else { showError('ลงทะเบียนไม่สำเร็จ', data.message || 'เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง'); }
             })
-            .catch(error => {
-                console.error('Error submitting form:', error);
-                loadingIndicator.classList.add('hidden');
-                form.classList.remove('hidden');
-                showError('เกิดข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ');
-            });
+            .catch(error => { console.error('Error submitting form:', error); loadingIndicator.classList.add('hidden'); form.classList.remove('hidden'); showError('เกิดข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'); });
         }
         
         function showError(title, message) {
-            Swal.fire({
-                title: title,
-                text: message,
-                icon: 'error',
-                confirmButtonColor: '#8A2BE2'
-            });
+            Swal.fire({ title: title, text: message, icon: 'error', confirmButtonColor: '#8A2BE2' });
         }
     </script>
 </body>
