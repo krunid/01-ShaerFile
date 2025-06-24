@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -19,7 +17,7 @@
         }
         
         .glass-effect {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9); /* Increased opacity slightly for better readability */
             backdrop-filter: blur(10px);
             border-radius: 16px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -30,13 +28,25 @@
             transition: all 0.3s ease;
         }
         
-        .purple-btn:hover {
+        .purple-btn:hover:not(:disabled) {
             background-color: #7209b7;
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        /* UI Improvement: Added disabled state for the button */
+        .purple-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .yellow-accent {
             border-left: 4px solid #FFD700;
+        }
+
+        /* UI Improvement: Smoother transition for input focus */
+        .form-input {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         
         .loader {
@@ -73,6 +83,11 @@
         td {
             padding: 10px;
             border-bottom: 1px solid #ddd;
+        }
+        
+        /* UI Improvement: Made email and timestamp columns not wrap on mobile for cleaner scrolling */
+        th.no-wrap, td.no-wrap {
+            white-space: nowrap;
         }
         
         tr:nth-child(even) {
@@ -121,14 +136,12 @@
 <body class="min-h-screen flex flex-col">
     <div class="container mx-auto px-4 py-8 flex-grow">
         <div class="glass-effect p-6 md:p-8 mb-8 max-w-3xl mx-auto">
-            <!-- Logo added here -->
             <div class="logo-container">
                 <img src="https://krunid.github.io/knid13/krunid-logo.png" alt="Logo" class="logo-image">
             </div>
             
-            <h1 id="formTitle" class="text-2xl md:text-3xl font-bold text-center mb-6 text-purple-800">กำลังโหลดข้อมูล...</h1>
+            <h1 id="formTitle" class="text-2xl md:text-3xl font-bold text-center mb-6 text-purple-800">ระบบลงทะเบียนรับไฟล์</h1>
             
-            <!-- Instructions Section -->
             <div class="instructions mb-6">
                 <h3>คำแนะนำการใช้งาน</h3>
                 <ol>
@@ -136,7 +149,7 @@
                     <li>ระบุอีเมลที่สามารถติดต่อได้</li>
                     <li>เลือกโปรแกรมที่ต้องการดาวน์โหลด</li>
                     <li>กดปุ่ม "ลงทะเบียนรับไฟล์" เพื่อดำเนินการ</li>
-                    <li>หลังจากลงทะเบียนสำเร็จ ระบบจะเปิดลิงก์ดาวน์โหลดโปรแกรมให้อัตโนมัติ</li>
+                    <li>หลังจากลงทะเบียนสำเร็จ ระบบจะแสดงปุ่มให้กดดาวน์โหลดโปรแกรม</li>
                 </ol>
             </div>
             
@@ -144,26 +157,25 @@
                 <div class="yellow-accent pl-3">
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label>
                     <input type="text" id="name" name="name" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
                 </div>
                 
                 <div class="yellow-accent pl-3">
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">อีเมล</label>
                     <input type="email" id="email" name="email" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
                 </div>
                 
                 <div class="yellow-accent pl-3">
                     <label for="program" class="block text-sm font-medium text-gray-700 mb-1">เลือกโปรแกรม</label>
                     <select id="program" name="program" required 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
                         <option value="" disabled selected>กรุณาเลือกโปรแกรม</option>
-                        <!-- Options will be loaded dynamically -->
-                    </select>
+                        </select>
                 </div>
                 
                 <div class="text-center pt-4">
-                    <button type="submit" class="purple-btn text-white px-6 py-3 rounded-md font-medium shadow-md">
+                    <button type="submit" id="submitBtn" class="purple-btn text-white px-6 py-3 rounded-md font-medium shadow-md" disabled>
                         ลงทะเบียนรับไฟล์
                     </button>
                 </div>
@@ -175,7 +187,6 @@
             </div>
         </div>
         
-        <!-- Recent Registrations Table -->
         <div class="glass-effect p-6 md:p-8 max-w-5xl mx-auto mb-8">
             <h2 class="text-xl md:text-2xl font-bold mb-4 text-purple-800">รายการลงทะเบียนล่าสุด</h2>
             <div id="tableLoading" class="text-center py-4">
@@ -188,20 +199,18 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th>ชื่อ-นามสกุล</th>
-                            <th>อีเมล</th>
+                            <th class="no-wrap">อีเมล</th>
                             <th>โปรแกรม</th>
-                            <th>เวลา</th>
+                            <th class="no-wrap">เวลา</th>
                         </tr>
                     </thead>
                     <tbody id="registrationData">
-                        <!-- Data will be loaded dynamically -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
     </div>
     
-    <!-- Footer -->
     <footer class="bg-purple-900 text-white py-6">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -210,8 +219,7 @@
                     <p class="text-yellow-300 text-sm">ลงทะเบียนง่าย ได้ไฟล์ทันที</p>
                 </div>
                 <div class="text-sm text-gray-300">
-                    <p>© 2023 ระบบลงทะเบียนรับไฟล์</p>
-                    <p>พัฒนาโดย Canva Code</p>
+                    <p>© 2024 ระบบลงทะเบียนรับไฟล์</p> <p>พัฒนาโดย Canva Code</p>
                 </div>
             </div>
         </div>
@@ -222,17 +230,36 @@
         const SHEET_ID = '1gFUtqSFzDjUGPXR79Rn1_GdKzidQ5LT1cVw3NahpkZU';
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Load program options and form title
             fetchProgramOptions();
-            
-            // Load recent registrations
             fetchRecentRegistrations();
+
+            const form = document.getElementById('registrationForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const requiredInputs = form.querySelectorAll('[required]');
+
+            // UX Improvement: Function to check form validity and toggle button state
+            function checkFormValidity() {
+                let allValid = true;
+                requiredInputs.forEach(input => {
+                    if (!input.value) {
+                        allValid = false;
+                    }
+                });
+                submitBtn.disabled = !allValid;
+            }
+
+            // Add event listeners to all required fields
+            requiredInputs.forEach(input => {
+                input.addEventListener('input', checkFormValidity);
+            });
             
-            // Form submission handler
-            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 submitForm();
             });
+
+            // Initial check
+            checkFormValidity();
         });
         
         function fetchProgramOptions() {
@@ -240,14 +267,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Set form title if available
                         if (data.title) {
                             document.getElementById('formTitle').textContent = data.title;
-                        } else {
-                            document.getElementById('formTitle').textContent = 'ลงทะเบียนรับไฟล์';
                         }
-                        
-                        // Populate dropdown
                         const programSelect = document.getElementById('program');
                         data.programs.forEach(program => {
                             const option = document.createElement('option');
@@ -256,121 +278,132 @@
                             programSelect.appendChild(option);
                         });
                     } else {
-                        showError('ไม่สามารถโหลดข้อมูลโปรแกรมได้');
+                        showError('ไม่สามารถโหลดข้อมูลโปรแกรมได้', 'กรุณาลองรีเฟรชหน้าใหม่อีกครั้ง');
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching programs:', error);
-                    showError('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+                    showError('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+                    document.getElementById('formTitle').textContent = 'เกิดข้อผิดพลาด';
                 });
         }
         
         function fetchRecentRegistrations() {
+            const tableLoading = document.getElementById('tableLoading');
+            const tableContainer = document.getElementById('tableContainer');
+            const tableBody = document.getElementById('registrationData');
+            
+            tableLoading.classList.remove('hidden');
+            tableContainer.classList.add('hidden');
+
             fetch(`${SCRIPT_URL}?action=getRecentData&sheetId=${SHEET_ID}`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('tableLoading').classList.add('hidden');
-                    document.getElementById('tableContainer').classList.remove('hidden');
+                    tableLoading.classList.add('hidden');
+                    tableContainer.classList.remove('hidden');
                     
                     if (data.success && data.registrations && data.registrations.length > 0) {
-                        const tableBody = document.getElementById('registrationData');
                         tableBody.innerHTML = '';
-                        
                         data.registrations.forEach(reg => {
                             const row = document.createElement('tr');
+                            // Use `textContent` for security and handle potential null values
                             row.innerHTML = `
                                 <td>${reg.no || '-'}</td>
                                 <td>${reg.name || '-'}</td>
-                                <td>${reg.email || '-'}</td>
+                                <td class="no-wrap">${reg.email || '-'}</td>
                                 <td>${reg.program || '-'}</td>
-                                <td>${reg.timestamp || '-'}</td>
+                                <td class="no-wrap">${reg.timestamp || '-'}</td>
                             `;
                             tableBody.appendChild(row);
                         });
                     } else {
-                        document.getElementById('registrationData').innerHTML = 
-                            '<tr><td colspan="5" class="text-center py-4">ไม่พบข้อมูลการลงทะเบียน</td></tr>';
+                        tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">ยังไม่มีข้อมูลการลงทะเบียน</td></tr>';
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching registrations:', error);
-                    document.getElementById('tableLoading').classList.add('hidden');
-                    document.getElementById('tableContainer').classList.remove('hidden');
-                    document.getElementById('registrationData').innerHTML = 
-                        '<tr><td colspan="5" class="text-center py-4">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
+                    tableLoading.classList.add('hidden');
+                    tableContainer.classList.remove('hidden');
+                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
                 });
         }
         
         function submitForm() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const program = document.getElementById('program').value;
+            const form = document.getElementById('registrationForm');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+
+            loadingIndicator.classList.remove('hidden');
+            form.classList.add('hidden');
             
-            // Show loading indicator
-            document.getElementById('registrationForm').classList.add('hidden');
-            document.getElementById('loadingIndicator').classList.remove('hidden');
-            
-            // Prepare form data
-            const formData = new FormData();
+            const formData = new FormData(form);
             formData.append('action', 'register');
             formData.append('sheetId', SHEET_ID);
-            formData.append('name', name);
-            formData.append('email', email);
-            formData.append('program', program);
             
-            // Submit form
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                // Hide loading indicator
-                document.getElementById('loadingIndicator').classList.add('hidden');
-                document.getElementById('registrationForm').classList.remove('hidden');
+                loadingIndicator.classList.add('hidden');
+                form.classList.remove('hidden');
                 
                 if (data.success) {
-                    // Show success message with registration number
-                    Swal.fire({
+                    // --- UX & Error Handling Improvement: Robust download flow ---
+                    // Instead of window.open, show a button in the success modal.
+                    // This prevents pop-up blockers from interfering.
+                    
+                    let swalConfig = {
                         title: 'ลงทะเบียนสำเร็จ!',
                         html: `
                             <p>${data.message || 'ขอบคุณสำหรับการลงทะเบียน'}</p>
                             <p class="mt-2 font-semibold">คุณได้ลงทะเบียนเป็นลำดับที่: ${data.registrationNumber || 'N/A'}</p>
                         `,
                         icon: 'success',
-                        confirmButtonColor: '#8A2BE2'
-                    }).then(() => {
-                        // Reset form
-                        document.getElementById('registrationForm').reset();
-                        
-                        // Refresh recent registrations
-                        fetchRecentRegistrations();
-                        
-                        // If there's a download link
-                        if (data.downloadLink) {
+                        confirmButtonColor: '#8A2BE2',
+                        confirmButtonText: 'ปิด',
+                    };
+
+                    // If a download link is provided, add a download button
+                    if (data.downloadLink) {
+                        swalConfig.showCancelButton = true;
+                        swalConfig.confirmButtonText = 'ดาวน์โหลดไฟล์';
+                        swalConfig.cancelButtonText = 'ปิดหน้าต่าง';
+                        swalConfig.focusConfirm = true;
+                    }
+
+                    Swal.fire(swalConfig).then((result) => {
+                        // If user clicks the "Download" button
+                        if (result.isConfirmed && data.downloadLink) {
                             window.open(data.downloadLink, '_blank');
                         }
+                        
+                        // Reset form and refresh data regardless of which button was clicked
+                        form.reset();
+                        document.getElementById('submitBtn').disabled = true; // Re-disable button after reset
+                        fetchRecentRegistrations();
                     });
+
                 } else {
-                    showError(data.message || 'เกิดข้อผิดพลาดในการลงทะเบียน');
+                    showError('ลงทะเบียนไม่สำเร็จ', data.message || 'เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง');
                 }
             })
             .catch(error => {
                 console.error('Error submitting form:', error);
-                document.getElementById('loadingIndicator').classList.add('hidden');
-                document.getElementById('registrationForm').classList.remove('hidden');
-                showError('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์');
+                loadingIndicator.classList.add('hidden');
+                form.classList.remove('hidden');
+                showError('เกิดข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ');
             });
         }
         
-        function showError(message) {
+        function showError(title, message) {
             Swal.fire({
-                title: 'เกิดข้อผิดพลาด',
+                title: title,
                 text: message,
                 icon: 'error',
                 confirmButtonColor: '#8A2BE2'
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94b6656a97f7a18d',t:'MTc0OTE5NzAzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
