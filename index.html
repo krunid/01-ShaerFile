@@ -23,15 +23,16 @@
         td { padding: 10px; border-bottom: 1px solid #ddd; }
         th.no-wrap, td.no-wrap { white-space: nowrap; }
         tr:nth-child(even) { background-color: rgba(255, 215, 0, 0.1); }
-        tr:hover { background-color: rgba(138, 43, 226, 0.1); }
+        tr:not(#noResultsRow):hover { background-color: rgba(138, 43, 226, 0.1); }
         .logo-container { display: flex; justify-content: center; margin-bottom: 16px; }
         .logo-image { max-height: 200px; object-fit: contain; }
         .instructions { background-color: rgba(255, 215, 0, 0.15); border-left: 4px solid #FFD700; padding: 16px; margin-bottom: 24px; border-radius: 0 8px 8px 0; }
         .instructions h3 { color: #8A2BE2; margin-bottom: 8px; font-weight: 600; }
         .instructions ol { margin-left: 20px; list-style-type: decimal; }
         .instructions li { margin-bottom: 6px; }
-        /* Make sure the "no results" row is not affected by hover effects */
-        #noResultsRow:hover { background-color: transparent; }
+        .pagination-btn { padding: 8px 16px; border: 1px solid #ddd; background-color: white; border-radius: 6px; transition: all 0.2s ease; }
+        .pagination-btn:hover:not(:disabled) { background-color: #f0e6ff; border-color: #8A2BE2; }
+        .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; background-color: #f3f4f6; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -75,19 +76,18 @@
                 <p class="text-center text-gray-600">กำลังบันทึกข้อมูล...</p>
             </div>
         </div>
+
         <div class="glass-effect p-6 md:p-8 max-w-5xl mx-auto mb-8">
             <h2 class="text-xl md:text-2xl font-bold mb-4 text-purple-800">รายการลงทะเบียนล่าสุด</h2>
-
+            
             <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
                 <div class="relative w-full sm:w-auto flex-grow">
-                    <input type="text" id="searchInput" placeholder="ค้นหาจากชื่อ, อีเมล, หรือโปรแกรม..."
-                           class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
+                    <input type="text" id="searchInput" placeholder="ค้นหาจากชื่อ, อีเมล, หรือโปรแกรม..." class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input">
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
                     </div>
                 </div>
-                <button id="reloadBtn" title="โหลดข้อมูลใหม่"
-                        class="flex-shrink-0 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-transform duration-200 ease-in-out hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center">
+                <button id="reloadBtn" title="โหลดข้อมูลใหม่" class="flex-shrink-0 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-transform duration-200 ease-in-out hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" /></svg>
                     <span>โหลดใหม่</span>
                 </button>
@@ -104,15 +104,24 @@
                             <th>ลำดับ</th><th>ชื่อ-นามสกุล</th><th class="no-wrap">อีเมล</th><th>โปรแกรม</th><th class="no-wrap">เวลา</th>
                         </tr>
                     </thead>
-                    <tbody id="registrationData">
-                        <tr id="noResultsRow" class="hidden">
-                            <td colspan="5" class="text-center py-4 text-gray-500">ไม่พบข้อมูลที่ตรงกัน</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="registrationData"></tbody>
                 </table>
+            </div>
+
+            <div id="paginationContainer" class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4 hidden">
+                <div class="flex gap-2">
+                    <button id="firstPageBtn" class="pagination-btn">หน้าแรก</button>
+                    <button id="prevPageBtn" class="pagination-btn">ย้อนกลับ</button>
+                </div>
+                <div id="pageInfo" class="text-gray-700 font-medium"></div>
+                <div class="flex gap-2">
+                    <button id="nextPageBtn" class="pagination-btn">หน้าถัดไป</button>
+                    <button id="lastPageBtn" class="pagination-btn">หน้าสุดท้าย</button>
+                </div>
             </div>
         </div>
     </div>
+
     <footer class="bg-purple-900 text-white py-6">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -121,7 +130,8 @@
                     <p class="text-yellow-300 text-sm">ลงทะเบียนง่าย ได้ไฟล์ทันที</p>
                 </div>
                 <div class="text-sm text-gray-300">
-                    <p>© 2024 ระบบลงทะเบียนรับไฟล์</p><p>พัฒนาโดย Canva Code</p>
+                    <p>© 2024 ระบบลงทะเบียนรับไฟล์</p>
+                    <p>พัฒนาโดย Canva Code</p>
                 </div>
             </div>
         </div>
@@ -130,15 +140,19 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxexukmxxGsjUNXPHki4tiHkXrQZuveRFHn9oFhgkw23Dfi9xAmu8uW_MjvySZP5xo2LQ/exec';
         const SHEET_ID = '1gFUtqSFzDjUGPXR79Rn1_GdKzidQ5LT1cVw3NahpkZU';
+        const PAGE_SIZE = 20;
+
+        let currentPage = 1;
+        let totalPages = 1;
         
         document.addEventListener('DOMContentLoaded', function() {
             fetchProgramOptions();
-            fetchRecentRegistrations();
+            fetchRecentRegistrations(currentPage);
 
             const form = document.getElementById('registrationForm');
             const submitBtn = document.getElementById('submitBtn');
             const requiredInputs = form.querySelectorAll('[required]');
-
+            
             function checkFormValidity() {
                 let allValid = true;
                 requiredInputs.forEach(input => { if (!input.value) { allValid = false; } });
@@ -149,38 +163,58 @@
             form.addEventListener('submit', function(e) { e.preventDefault(); submitForm(); });
             checkFormValidity();
             
-            // --- NEW: Event listeners for search and reload ---
             const searchInput = document.getElementById('searchInput');
             const reloadBtn = document.getElementById('reloadBtn');
+            const firstPageBtn = document.getElementById('firstPageBtn');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const lastPageBtn = document.getElementById('lastPageBtn');
             
             searchInput.addEventListener('input', handleSearch);
-            reloadBtn.addEventListener('click', fetchRecentRegistrations);
+            reloadBtn.addEventListener('click', () => fetchRecentRegistrations(1));
+
+            firstPageBtn.addEventListener('click', () => { if (currentPage > 1) fetchRecentRegistrations(1); });
+            prevPageBtn.addEventListener('click', () => { if (currentPage > 1) fetchRecentRegistrations(currentPage - 1); });
+            nextPageBtn.addEventListener('click', () => { if (currentPage < totalPages) fetchRecentRegistrations(currentPage + 1); });
+            lastPageBtn.addEventListener('click', () => { if (currentPage < totalPages) fetchRecentRegistrations(totalPages); });
         });
         
-        // --- NEW: Function to handle searching in the table ---
+        function updatePaginationControls() {
+            const pageInfo = document.getElementById('pageInfo');
+            const firstPageBtn = document.getElementById('firstPageBtn');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const lastPageBtn = document.getElementById('lastPageBtn');
+            const paginationContainer = document.getElementById('paginationContainer');
+
+            if (totalPages > 1) {
+                paginationContainer.classList.remove('hidden');
+                pageInfo.textContent = `หน้า ${currentPage} จาก ${totalPages}`;
+                firstPageBtn.disabled = currentPage === 1;
+                prevPageBtn.disabled = currentPage === 1;
+                nextPageBtn.disabled = currentPage === totalPages;
+                lastPageBtn.disabled = currentPage === totalPages;
+            } else {
+                paginationContainer.classList.add('hidden');
+            }
+        }
+
         function handleSearch() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             const tableBody = document.getElementById('registrationData');
             const rows = tableBody.getElementsByTagName('tr');
-            const noResultsRow = document.getElementById('noResultsRow');
-            let visibleRowCount = 0;
-
-            // Loop through all data rows (excluding the noResultsRow)
+            
+            // NOTE: Simple client-side search only searches the CURRENT page.
+            // For a full database search, this would need to be a server-side call.
             for (let i = 0; i < rows.length; i++) {
                 const row = rows[i];
-                if (row.id === 'noResultsRow') continue; // Skip the message row
-
                 const rowText = row.textContent || row.innerText;
                 if (rowText.toLowerCase().includes(searchTerm)) {
                     row.style.display = '';
-                    visibleRowCount++;
                 } else {
                     row.style.display = 'none';
                 }
             }
-
-            // Show or hide the "no results" message
-            noResultsRow.classList.toggle('hidden', visibleRowCount > 0);
         }
 
         function formatThaiBuddhistDate(dateString) {
@@ -200,58 +234,52 @@
                     if (data.success) {
                         if (data.title) { document.getElementById('formTitle').textContent = data.title; }
                         const programSelect = document.getElementById('program');
-                        programSelect.innerHTML = '<option value="" disabled selected>กรุณาเลือกโปรแกรม</option>'; // Clear old options
+                        programSelect.innerHTML = '<option value="" disabled selected>กรุณาเลือกโปรแกรม</option>';
                         data.programs.forEach(program => {
                             const option = document.createElement('option');
                             option.value = program;
                             option.textContent = program;
                             programSelect.appendChild(option);
                         });
-                    } else { showError('ไม่สามารถโหลดข้อมูลโปรแกรมได้', 'กรุณาลองรีเฟรชหน้าใหม่อีกครั้ง'); }
+                    } else { showError('ไม่สามารถโหลดข้อมูลโปรแกรมได้', data.message || 'กรุณาลองรีเฟรชหน้าใหม่อีกครั้ง'); }
                 })
-                .catch(error => { console.error('Error fetching programs:', error); showError('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'); document.getElementById('formTitle').textContent = 'เกิดข้อผิดพลาด'; });
+                .catch(error => { console.error('Error fetching programs:', error); showError('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'); });
         }
         
-        function fetchRecentRegistrations() {
+        function fetchRecentRegistrations(page) {
             const tableLoading = document.getElementById('tableLoading');
             const tableContainer = document.getElementById('tableContainer');
             const tableBody = document.getElementById('registrationData');
-            const noResultsRow = document.getElementById('noResultsRow');
             const searchInput = document.getElementById('searchInput');
 
             tableLoading.classList.remove('hidden');
             tableContainer.classList.add('hidden');
-            // Reset search input and hide no-results row on reload
+            document.getElementById('paginationContainer').classList.add('hidden');
             searchInput.value = '';
-            noResultsRow.classList.add('hidden');
 
-            fetch(`${SCRIPT_URL}?action=getRecentData&sheetId=${SHEET_ID}`)
+            fetch(`${SCRIPT_URL}?action=getRecentData&sheetId=${SHEET_ID}&page=${page}&pageSize=${PAGE_SIZE}`)
                 .then(response => response.json())
                 .then(data => {
                     tableLoading.classList.add('hidden');
                     tableContainer.classList.remove('hidden');
-                    
-                    // Clear only data rows, keep the no-results row template
                     tableBody.innerHTML = '';
-                    tableBody.appendChild(noResultsRow);
+                    
+                    if (data.success) {
+                        currentPage = data.pagination.currentPage;
+                        totalPages = data.pagination.totalPages;
 
-                    if (data.success && data.registrations && data.registrations.length > 0) {
-                        data.registrations.forEach(reg => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${reg.no || '-'}</td>
-                                <td>${reg.name || '-'}</td>
-                                <td class="no-wrap">${reg.email || '-'}</td>
-                                <td>${reg.program || '-'}</td>
-                                <td class="no-wrap">${formatThaiBuddhistDate(reg.timestamp)}</td>
-                            `;
-                            // Insert new data rows before the "no results" row
-                            tableBody.insertBefore(row, noResultsRow);
-                        });
+                        if (data.registrations && data.registrations.length > 0) {
+                            data.registrations.forEach(reg => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td>${reg.no || '-'}</td><td>${reg.name || '-'}</td><td class="no-wrap">${reg.email || '-'}</td><td>${reg.program || '-'}</td><td class="no-wrap">${formatThaiBuddhistDate(reg.timestamp)}</td>`;
+                                tableBody.appendChild(row);
+                            });
+                        } else {
+                            tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">ยังไม่มีข้อมูลการลงทะเบียน</td></tr>';
+                        }
+                        updatePaginationControls();
                     } else {
-                        const emptyRow = document.createElement('tr');
-                        emptyRow.innerHTML = '<td colspan="5" class="text-center py-4">ยังไม่มีข้อมูลการลงทะเบียน</td>';
-                        tableBody.insertBefore(emptyRow, noResultsRow);
+                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-red-500">${data.message || 'เกิดข้อผิดพลาด'}</td></tr>`;
                     }
                 })
                 .catch(error => {
@@ -295,9 +323,9 @@
                         if (result.isConfirmed && data.downloadLink) { window.open(data.downloadLink, '_blank'); }
                         form.reset();
                         document.getElementById('submitBtn').disabled = true;
-                        fetchRecentRegistrations(); // Refresh data after submission
+                        fetchRecentRegistrations(1); // Refresh to first page
                     });
-                } else { showError('ลงทะเบียนไม่สำเร็จ', data.message || 'เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง'); }
+                } else { showError('ลงทะเบียนไม่สำเร็จ', data.message || 'เกิดข้อผิดพลาดบางอย่าง'); }
             })
             .catch(error => { console.error('Error submitting form:', error); loadingIndicator.classList.add('hidden'); form.classList.remove('hidden'); showError('เกิดข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'); });
         }
