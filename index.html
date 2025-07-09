@@ -17,7 +17,7 @@
             background-color: #f3f4f6; /* Fallback color */
         }
         .glass-effect {
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.70); /* Adjusted for better readability */
             backdrop-filter: blur(12px);
             border-radius: 16px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
@@ -40,28 +40,20 @@
         .logo-container { display: flex; justify-content: center; margin-bottom: 16px; }
         .logo-image { max-height: 200px; object-fit: contain; }
         .instructions { background-color: rgba(255, 215, 0, 0.15); border-left: 4px solid #FFD700; padding: 16px; margin-bottom: 24px; border-radius: 0 8px 8px 0; }
-        .instructions h3 { color: #8A2BE2; margin-bottom: 8px; font-weight: 600; }
-        .instructions ol { margin-left: 20px; list-style-type: decimal; }
-        .instructions li { margin-bottom: 6px; }
         .pagination-btn { padding: 8px 16px; border: 1px solid #ddd; background-color: white; border-radius: 6px; transition: all 0.2s ease; }
         .pagination-btn:hover:not(:disabled) { background-color: #f0e6ff; border-color: #8A2BE2; }
         .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; background-color: #f3f4f6; }
-        
-        /* --- NEW: Navbar Styles --- */
         .nav-button {
             padding: 10px 20px;
             font-weight: 500;
-            color: #4a044e; /* Dark purple text */
+            color: #4a044e;
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
         }
-        .nav-button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-        .nav-button.active {
-            color: #8A2BE2; /* Bright purple */
-            border-bottom-color: #8A2BE2;
-        }
+        .nav-button:hover { background-color: rgba(255, 255, 255, 0.3); }
+        .nav-button.active { color: #8A2BE2; border-bottom-color: #8A2BE2; }
+        /* Dashboard styles */
+        .stat-card { background-color: rgba(255, 255, 255, 0.5); padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -69,21 +61,20 @@
         <div class="container mx-auto flex justify-center items-center">
             <button id="navBtnRegister" class="nav-button active">หน้าบันทึก</button>
             <button id="navBtnTable" class="nav-button">หน้าตารางข้อมูล</button>
+            <button id="navBtnDashboard" class="nav-button">แดชบอร์ด</button>
         </div>
     </nav>
 
     <div class="container mx-auto px-4 py-8 flex-grow">
         <div id="page-register">
             <div class="glass-effect p-6 md:p-8 mb-8 max-w-3xl mx-auto">
-                <div class="logo-container">
-                    <img src="https://krunid.github.io/knid13/krunid-logo.png" alt="Logo" class="logo-image">
-                </div>
+                <div class="logo-container"><img src="https://krunid.github.io/knid13/krunid-logo.png" alt="Logo" class="logo-image"></div>
                 <h1 id="formTitle" class="text-2xl md:text-3xl font-bold text-center mb-6 text-purple-800">ระบบลงทะเบียนรับไฟล์</h1>
                 <div class="instructions mb-6"><h3>คำแนะนำการใช้งาน</h3><ol><li>กรอกชื่อ-นามสกุลของท่านให้ถูกต้อง</li><li>ระบุอีเมลที่สามารถติดต่อได้</li><li>เลือกโปรแกรมที่ต้องการดาวน์โหลด</li><li>กดปุ่ม "ลงทะเบียนรับไฟล์" เพื่อดำเนินการ</li><li>หลังจากลงทะเบียนสำเร็จ ระบบจะแสดงปุ่มให้กดดาวน์โหลดโปรแกรม</li></ol></div>
                 <form id="registrationForm" class="space-y-6">
-                    <div class="yellow-accent pl-3"><label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label><input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input"></div>
-                    <div class="yellow-accent pl-3"><label for="email" class="block text-sm font-medium text-gray-700 mb-1">อีเมล</label><input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input"></div>
-                    <div class="yellow-accent pl-3"><label for="program" class="block text-sm font-medium text-gray-700 mb-1">เลือกโปรแกรม</label><select id="program" name="program" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input"><option value="" disabled selected>กรุณาเลือกโปรแกรม</option></select></div>
+                    <div class="yellow-accent pl-3"><label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label><input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 form-input"></div>
+                    <div class="yellow-accent pl-3"><label for="email" class="block text-sm font-medium text-gray-700 mb-1">อีเมล</label><input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 form-input"></div>
+                    <div class="yellow-accent pl-3"><label for="program" class="block text-sm font-medium text-gray-700 mb-1">เลือกโปรแกรม</label><select id="program" name="program" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 form-input"><option value="" disabled selected>กรุณาเลือกโปรแกรม</option></select></div>
                     <div class="text-center pt-4"><button type="submit" id="submitBtn" class="purple-btn text-white px-6 py-3 rounded-md font-medium shadow-md" disabled>ลงทะเบียนรับไฟล์</button></div>
                 </form>
                 <div id="loadingIndicator" class="hidden"><div class="loader"></div><p class="text-center text-gray-600">กำลังบันทึกข้อมูล...</p></div>
@@ -93,10 +84,35 @@
         <div id="page-table" class="hidden">
             <div class="glass-effect p-6 md:p-8 max-w-5xl mx-auto mb-8">
                 <h2 class="text-xl md:text-2xl font-bold mb-4 text-purple-800">รายการลงทะเบียนล่าสุด</h2>
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4"><div class="relative w-full sm:w-auto flex-grow"><input type="text" id="searchInput" placeholder="ค้นหาจากชื่อ, อีเมล, หรือโปรแกรม..." class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 form-input"><div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"><svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg></div></div><button id="reloadBtn" title="โหลดข้อมูลใหม่" class="flex-shrink-0 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-transform duration-200 ease-in-out hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" /></svg><span>โหลดใหม่</span></button></div>
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4"><div class="relative w-full sm:w-auto flex-grow"><input type="text" id="searchInput" placeholder="ค้นหาจากชื่อ, อีเมล, หรือโปรแกรม..." class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 form-input"><div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"><svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg></div></div><button id="reloadBtn" title="โหลดข้อมูลใหม่" class="flex-shrink-0 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-transform duration-200 ease-in-out hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" /></svg><span>โหลดใหม่</span></button></div>
                 <div id="tableLoading" class="text-center py-4"><div class="loader"></div><p>กำลังโหลดข้อมูล...</p></div>
                 <div id="tableContainer" class="table-container hidden"><table><thead><tr><th>ลำดับ</th><th>ชื่อ-นามสกุล</th><th class="no-wrap">อีเมล</th><th>โปรแกรม</th><th class="no-wrap">เวลา</th></tr></thead><tbody id="registrationData"></tbody></table></div>
                 <div id="paginationContainer" class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4 hidden"><div class="flex gap-2"><button id="firstPageBtn" class="pagination-btn">หน้าแรก</button><button id="prevPageBtn" class="pagination-btn">ย้อนกลับ</button></div><div id="pageInfo" class="text-gray-700 font-medium"></div><div class="flex gap-2"><button id="nextPageBtn" class="pagination-btn">หน้าถัดไป</button><button id="lastPageBtn" class="pagination-btn">หน้าสุดท้าย</button></div></div>
+            </div>
+        </div>
+
+        <div id="page-dashboard" class="hidden">
+            <div class="glass-effect p-6 md:p-8 max-w-6xl mx-auto">
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-purple-800 text-center">📊 ภาพรวมการลงทะเบียน</h2>
+                <div id="dashboardLoading" class="text-center py-6">
+                    <div class="loader"></div>
+                    <p class="text-gray-600">กำลังคำนวณข้อมูลสถิติ...</p>
+                </div>
+                <div id="dashboardContent" class="hidden grid md:grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="stat-card">
+                        <h3 class="font-bold text-lg text-purple-700 mb-3">สรุปตามโปรแกรม</h3>
+                        <ul id="program-stats" class="space-y-2 text-sm max-h-96 overflow-y-auto"></ul>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="font-bold text-lg text-purple-700 mb-3">สรุปตามชื่อ-นามสกุล</h3>
+                        <ul id="name-stats" class="space-y-2 text-sm max-h-96 overflow-y-auto"></ul>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="font-bold text-lg text-purple-700 mb-3">สรุปตามอีเมล</h3>
+                        <ul id="email-stats" class="space-y-2 text-sm max-h-96 overflow-y-auto"></ul>
+                    </div>
+                </div>
+                <div id="dashboardError" class="hidden text-center py-6 text-red-500"></div>
             </div>
         </div>
     </div>
@@ -112,50 +128,59 @@
 
         let currentPage = 1;
         let totalPages = 1;
+        let allRegistrationsData = null; // Cache for dashboard data
         
         document.addEventListener('DOMContentLoaded', function() {
-            // --- NEW: Page switching elements and logic ---
-            const pageRegister = document.getElementById('page-register');
-            const pageTable = document.getElementById('page-table');
-            const navBtnRegister = document.getElementById('navBtnRegister');
-            const navBtnTable = document.getElementById('navBtnTable');
+            // --- Page switching elements ---
+            const pages = {
+                register: document.getElementById('page-register'),
+                table: document.getElementById('page-table'),
+                dashboard: document.getElementById('page-dashboard')
+            };
+            const navButtons = {
+                register: document.getElementById('navBtnRegister'),
+                table: document.getElementById('navBtnTable'),
+                dashboard: document.getElementById('navBtnDashboard')
+            };
 
-            function showPage(pageId) {
-                if (pageId === 'register') {
-                    pageRegister.classList.remove('hidden');
-                    pageTable.classList.add('hidden');
-                    navBtnRegister.classList.add('active');
-                    navBtnTable.classList.remove('active');
-                } else if (pageId === 'table') {
-                    pageRegister.classList.add('hidden');
-                    pageTable.classList.remove('hidden');
-                    navBtnRegister.classList.remove('active');
-                    navBtnTable.classList.add('active');
-                }
+            function showPage(pageKey) {
+                Object.keys(pages).forEach(key => {
+                    pages[key].classList.add('hidden');
+                    navButtons[key].classList.remove('active');
+                });
+                pages[pageKey].classList.remove('hidden');
+                navButtons[pageKey].classList.add('active');
             }
 
-            navBtnRegister.addEventListener('click', () => showPage('register'));
-            navBtnTable.addEventListener('click', () => showPage('table'));
-            // --- End of new page switching logic ---
+            navButtons.register.addEventListener('click', () => showPage('register'));
+            navButtons.table.addEventListener('click', () => showPage('table'));
+            navButtons.dashboard.addEventListener('click', () => {
+                showPage('dashboard');
+                if (!allRegistrationsData) { // Fetch data only once
+                    fetchDashboardData();
+                }
+            });
 
-            // Initial data fetching
+            // --- Initial data fetching ---
             fetchProgramOptions();
             fetchRecentRegistrations(currentPage);
 
+            // --- Form logic ---
             const form = document.getElementById('registrationForm');
             const submitBtn = document.getElementById('submitBtn');
             const requiredInputs = form.querySelectorAll('[required]');
             
             function checkFormValidity() {
                 let allValid = true;
-                requiredInputs.forEach(input => { if (!input.value) { allValid = false; } });
+                requiredInputs.forEach(input => { if (!input.value) allValid = false; });
                 submitBtn.disabled = !allValid;
             }
 
-            requiredInputs.forEach(input => { input.addEventListener('input', checkFormValidity); });
-            form.addEventListener('submit', function(e) { e.preventDefault(); submitForm(); });
+            requiredInputs.forEach(input => input.addEventListener('input', checkFormValidity));
+            form.addEventListener('submit', (e) => { e.preventDefault(); submitForm(); });
             checkFormValidity();
             
+            // --- Table logic ---
             const searchInput = document.getElementById('searchInput');
             const reloadBtn = document.getElementById('reloadBtn');
             const firstPageBtn = document.getElementById('firstPageBtn');
@@ -165,13 +190,79 @@
             
             searchInput.addEventListener('input', handleSearch);
             reloadBtn.addEventListener('click', () => fetchRecentRegistrations(1));
-
             firstPageBtn.addEventListener('click', () => { if (currentPage > 1) fetchRecentRegistrations(1); });
             prevPageBtn.addEventListener('click', () => { if (currentPage > 1) fetchRecentRegistrations(currentPage - 1); });
             nextPageBtn.addEventListener('click', () => { if (currentPage < totalPages) fetchRecentRegistrations(currentPage + 1); });
             lastPageBtn.addEventListener('click', () => { if (currentPage < totalPages) fetchRecentRegistrations(totalPages); });
         });
-        
+
+        // --- DASHBOARD FUNCTIONS ---
+        function fetchDashboardData() {
+            const loadingEl = document.getElementById('dashboardLoading');
+            const contentEl = document.getElementById('dashboardContent');
+            const errorEl = document.getElementById('dashboardError');
+            
+            loadingEl.classList.remove('hidden');
+            contentEl.classList.add('hidden');
+            errorEl.classList.add('hidden');
+
+            fetch(`${SCRIPT_URL}?action=getAllData&sheetId=${SHEET_ID}`)
+                .then(response => response.json())
+                .then(data => {
+                    loadingEl.classList.add('hidden');
+                    if (data.success && data.registrations) {
+                        allRegistrationsData = data.registrations; // Cache data
+                        processAndDisplayDashboard(allRegistrationsData);
+                        contentEl.classList.remove('hidden');
+                    } else {
+                        throw new Error(data.message || 'ไม่สามารถโหลดข้อมูลแดชบอร์ดได้');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching dashboard data:', error);
+                    loadingEl.classList.add('hidden');
+                    errorEl.textContent = `เกิดข้อผิดพลาด: ${error.message}. โปรดตรวจสอบว่ามีการเพิ่ม action 'getAllData' ใน Google Apps Script แล้ว`;
+                    errorEl.classList.remove('hidden');
+                });
+        }
+
+        function processAndDisplayDashboard(data) {
+            const counts = { program: {}, name: {}, email: {} };
+            
+            data.forEach(reg => {
+                if(reg.program) counts.program[reg.program] = (counts.program[reg.program] || 0) + 1;
+                if(reg.name) counts.name[reg.name] = (counts.name[reg.name] || 0) + 1;
+                if(reg.email) counts.email[reg.email] = (counts.email[reg.email] || 0) + 1;
+            });
+
+            displayCountList('program-stats', counts.program);
+            displayCountList('name-stats', counts.name);
+            displayCountList('email-stats', counts.email);
+        }
+
+        function displayCountList(elementId, countData) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+
+            const sortedItems = Object.entries(countData).sort(([, a], [, b]) => b - a);
+
+            if (sortedItems.length === 0) {
+                container.innerHTML = '<li class="text-gray-500">ไม่มีข้อมูล</li>';
+                return;
+            }
+
+            sortedItems.forEach(([item, count]) => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center bg-gray-50 p-2 rounded';
+                li.innerHTML = `
+                    <span class="truncate pr-2" title="${item}">${item}</span>
+                    <span class="font-bold bg-purple-200 text-purple-800 text-xs px-2 py-1 rounded-full flex-shrink-0">${count}</span>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        // --- COMMON AND TABLE FUNCTIONS ---
         function updatePaginationControls() {
             const pageInfo = document.getElementById('pageInfo');
             const firstPageBtn = document.getElementById('firstPageBtn');
@@ -199,12 +290,9 @@
             
             for (let i = 0; i < rows.length; i++) {
                 const row = rows[i];
+                if (row.id === 'noResultsRow') continue;
                 const rowText = row.textContent || row.innerText;
-                if (rowText.toLowerCase().includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+                row.style.display = rowText.toLowerCase().includes(searchTerm) ? '' : 'none';
             }
         }
 
@@ -213,8 +301,7 @@
             try {
                 const date = new Date(dateString);
                 if (isNaN(date.getTime())) return dateString;
-                const options = { day: 'numeric', month: 'short', year: 'numeric', calendar: 'buddhist', timeZone: 'Asia/Bangkok' };
-                return date.toLocaleDateString('th-TH', options);
+                return date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric', calendar: 'buddhist', timeZone: 'Asia/Bangkok' });
             } catch (error) { console.error("Error formatting date:", dateString, error); return dateString; }
         }
 
@@ -241,12 +328,11 @@
             const tableLoading = document.getElementById('tableLoading');
             const tableContainer = document.getElementById('tableContainer');
             const tableBody = document.getElementById('registrationData');
-            const searchInput = document.getElementById('searchInput');
-
+            
             tableLoading.classList.remove('hidden');
             tableContainer.classList.add('hidden');
             document.getElementById('paginationContainer').classList.add('hidden');
-            searchInput.value = '';
+            document.getElementById('searchInput').value = '';
 
             fetch(`${SCRIPT_URL}?action=getRecentData&sheetId=${SHEET_ID}&page=${page}&pageSize=${PAGE_SIZE}`)
                 .then(response => response.json())
@@ -299,6 +385,7 @@
                 form.classList.remove('hidden');
                 
                 if (data.success) {
+                    allRegistrationsData = null; // Clear dashboard cache to force reload on next view
                     let swalConfig = {
                         title: 'ลงทะเบียนสำเร็จ!',
                         html: `<p>${data.message || 'ขอบคุณสำหรับการลงทะเบียน'}</p><p class="mt-2 font-semibold">คุณได้ลงทะเบียนเป็นลำดับที่: ${data.registrationNumber || 'N/A'}</p>`,
@@ -314,7 +401,7 @@
                         if (result.isConfirmed && data.downloadLink) { window.open(data.downloadLink, '_blank'); }
                         form.reset();
                         document.getElementById('submitBtn').disabled = true;
-                        fetchRecentRegistrations(1); // Refresh data in the table after successful registration
+                        fetchRecentRegistrations(1); // Refresh table
                     });
                 } else { showError('ลงทะเบียนไม่สำเร็จ', data.message || 'เกิดข้อผิดพลาดบางอย่าง'); }
             })
