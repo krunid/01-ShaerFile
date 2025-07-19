@@ -411,6 +411,25 @@
         function showError(title, message) {
             Swal.fire({ title: title, text: message, icon: 'error', confirmButtonColor: '#8A2BE2' });
         }
+
+               // *** NEW: ป้องกันการคลิกขวา ***
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'ไม่อนุญาตให้ใช้งาน!',
+                html: `
+                    <div class="text-center">
+                        <p class="mb-2">โค้ดนี้มีลิขสิทธิ์ หากต้องการนำไปพัฒนาต่อหรือใช้งาน</p>
+                        <p class="font-semibold">กรุณาติดต่อผู้พัฒนา: <a href="https://krunidblogger.blogspot.com/" target="_blank">กฤตัชญ์ ศิษย์หลวงพ่อเสือ</a></p>
+                    </div>
+                `,
+                icon: 'warning',
+                confirmButtonText: 'รับทราบ',
+                confirmButtonColor: '#4682b4'
+            });
+        });
+
+
     </script>
 </body>
 </html>
